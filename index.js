@@ -2,9 +2,11 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 var cors = require("cors");
-const Data = require("./models/data.js");
+const Dummy = require("./models/dummy.js");
 
 app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 mongoose
   .connect(
@@ -16,7 +18,7 @@ app.get("/", (req, res) => {
   res.json({ hi: "channy" });
 });
 app.post("/", async (req, res) => {
-  const newData = new Data(req.body.name);
+  const newData = new Dummy(req.body.name);
   await newData.save();
   console.log(newData);
 });

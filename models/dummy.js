@@ -5,4 +5,4 @@ const dummySchema = new Schema({
   name: String,
 });
 
-module.exports = mongoose.model("Data", dummySchema);
+module.exports = mongoose.model("Dummy", dummySchema);
