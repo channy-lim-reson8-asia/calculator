@@ -16,7 +16,7 @@ mongoose
 
 app.get("/", async (req, res) => {
   const datas = await Dummy.find();
-  res.json({ data: datas });
+  res.send(datas);
 });
 app.post("/", async (req, res) => {
   const newData = new Dummy();
