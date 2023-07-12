@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 var cors = require("cors");
+const Data = require("./models/data.js");
 
 app.use(cors());
 
@@ -13,6 +14,11 @@ mongoose
 
 app.get("/", (req, res) => {
   res.json({ hi: "channy" });
+});
+app.post("/", async (req, res) => {
+  const newData = new Data(req.body.name);
+  await newData.save();
+  console.log(newData);
 });
 
 const PORT = process.env.PORT || 3030;
