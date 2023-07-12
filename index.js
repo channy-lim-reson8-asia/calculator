@@ -15,7 +15,8 @@ mongoose
   .then(() => console.log("Connected!"));
 
 app.get("/", (req, res) => {
-  res.json({ hi: "channy" });
+  const datas = Dummy.find();
+  res.send(datas);
 });
 app.post("/", async (req, res) => {
   const newData = new Dummy();
