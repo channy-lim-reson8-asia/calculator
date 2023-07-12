@@ -3,11 +3,10 @@ const app = express();
 const mongoose = require("mongoose");
 var cors = require("cors");
 const Dummy = require("./models/dummy.js");
-const bodyParser = require("body-parser");
 
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 mongoose
   .connect(
