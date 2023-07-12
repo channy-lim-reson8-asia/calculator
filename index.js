@@ -18,7 +18,8 @@ app.get("/", (req, res) => {
   res.json({ hi: "channy" });
 });
 app.post("/", async (req, res) => {
-  const newData = new Dummy(req.body.name);
+  const newData = new Dummy();
+  newData.name = req.body.name;
   await newData.save();
   console.log(newData);
 });
