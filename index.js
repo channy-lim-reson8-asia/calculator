@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 var cors = require("cors");
 const Role = require("./models/role.js");
+const Experience = require("./models/experience.js");
 
 app.use(cors());
 app.use(express.json());
@@ -19,9 +20,19 @@ app.get("/roles", async (req, res) => {
   res.send(roles);
 });
 app.post("/roles", async (req, res) => {
-  const newData = new Role();
-  newData.role_name = req.body.role_name;
-  await newData.save();
+  const newRole = new Role();
+  newRole.role_name = req.body.role_name;
+  await newRole.save();
+});
+
+app.get("/experience", async (req, res) => {
+  const experiences = await Experience.find();
+  res.send(experiences);
+});
+app.post("/experience", async (req, res) => {
+  const newExperience = new Experience();
+  newExperience.years_of_experience = req.body.years_of_experience;
+  await newExperience.save();
 });
 
 const PORT = process.env.PORT || 3030;
