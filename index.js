@@ -10,7 +10,7 @@ app.use(express.urlencoded({ extended: false }));
 
 mongoose
   .connect(
-    "mongodb+srv://channylim:Doraemon@calculator.dsxzntd.mongodb.net/?retryWrites=true&w=majority"
+    "mongodb+srv://channylim:Doraemon@calculator.dsxzntd.mongodb.net/cost-overview?retryWrites=true&w=majority"
   )
   .then(() => console.log("Connected!"));
 
