@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 var cors = require("cors");
-const Dummy = require("./models/dummy.js");
+const Role = require("./models/role.js");
 
 app.use(cors());
 app.use(express.json());
@@ -14,15 +14,14 @@ mongoose
   )
   .then(() => console.log("Connected!"));
 
-app.get("/", async (req, res) => {
-  const datas = await Dummy.find();
-  res.send(datas);
+app.get("/roles", async (req, res) => {
+  const roles = await Role.find();
+  res.send(roles);
 });
-app.post("/", async (req, res) => {
-  const newData = new Dummy();
+app.post("/roles", async (req, res) => {
+  const newData = new Role();
   newData.name = req.body.name;
   await newData.save();
-  console.log(newData);
 });
 
 const PORT = process.env.PORT || 3030;

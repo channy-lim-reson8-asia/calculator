@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const dummySchema = new Schema({
+const roleSchema = new Schema({
   name: String,
 });
 
-module.exports = mongoose.model("Dummy", dummySchema);
+module.exports = mongoose.model("Role", roleSchema);
