@@ -41,10 +41,9 @@ app.get("/adds-on", async (req, res) => {
   res.send(addsOn);
 });
 app.post("/adds-on", async (req, res) => {
-  const { addson_name, addson_price } = req.body;
   const newAddsOn = new AddsOn();
-  newAddsOn.addson_name = addson_name;
-  newAddsOn.addson_price = addson_price;
+  newAddsOn.addson_name = req.body.addson_name;
+  newAddsOn.addson_price = req.body.addson_price;
   await newAddsOn.save();
 });
 
