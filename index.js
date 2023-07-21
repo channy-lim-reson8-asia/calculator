@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 var cors = require("cors");
 const Role = require("./models/role.js");
 const Experience = require("./models/experience.js");
+const AddsOn = require("./models/adds-on.js");
 
 app.use(cors());
 app.use(express.json());
@@ -33,6 +34,18 @@ app.post("/experience", async (req, res) => {
   const newExperience = new Experience();
   newExperience.years_of_experience = req.body.years_of_experience;
   await newExperience.save();
+});
+
+app.get("/adds-on", async (req, res) => {
+  const addsOn = await AddsOn.find();
+  res.send(addsOn);
+});
+app.post("/adds-on", async (req, res) => {
+  const { addson_name, addson_price } = req.body;
+  const newAddsOn = new AddsOn();
+  newAddsOn.addson_name = addson_name;
+  newAddsOn.addson_price = addson_price;
+  await newAddsOn.save();
 });
 
 const PORT = process.env.PORT || 3030;
