@@ -20,7 +20,7 @@ app.get("/roles", async (req, res) => {
 });
 app.post("/roles", async (req, res) => {
   const newData = new Role();
-  newData.name = req.body.name;
+  newData.role_name = req.body.role_name;
   await newData.save();
 });
 
