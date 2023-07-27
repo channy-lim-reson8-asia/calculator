@@ -28,7 +28,8 @@ app.get("/roles", async (req, res) => {
 
 app.post("/roles", async (req, res) => {
   try {
-    const newRole = new Role({ role_name: req.body.role_name });
+    const newRole = new Role();
+    newRole.role_name = req.body.role_name;
     await newRole.save();
     res.status(201).send("Role created successfully.");
   } catch (error) {
