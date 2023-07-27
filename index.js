@@ -28,11 +28,15 @@ app.get("/roles", async (req, res) => {
 
 app.post("/roles", async (req, res) => {
   try {
-    const newRole = new Role();
-    newRole.role_name = req.body.role_name;
+    const { role_name } = req.body;
+    if (!role_name) {
+      return res.status(400).send("Role name is required.");
+    }
+    const newRole = new Role({ role_name });
     await newRole.save();
     res.status(201).send("Role created successfully.");
   } catch (error) {
+    console.error("Error creating role:", error);
     res.status(500).send("Error creating role.");
   }
 });
