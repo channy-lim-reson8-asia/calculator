@@ -28,7 +28,9 @@ const redirectToHome = (req, res) => {
   res.redirect(307, "https://www.batamon.asia");
 };
 
-app.get("/employer", redirectToHome);
+app.get("/employer", (req, res) => {
+  res.redirect(307, "https://www.batamon.asia/");
+});
 app.get("/employee", redirectToHome);
 
 app.get("/roles", async (req, res) => {
