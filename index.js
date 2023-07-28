@@ -6,11 +6,9 @@ const Role = require("./models/role.js");
 const Experience = require("./models/experience.js");
 const AddsOn = require("./models/adds-on.js");
 
-const corsOptions = {
-  origin: '*',
-};
-
-app.use(cors(corsOptions));
+app.use(cors({
+  methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -23,8 +21,7 @@ mongoose
 
 
 const redirectToHome = (req, res) => {
-  res.status(307);
-  // res.redirect(307, 'https://www.batamon.asia');
+  res.redirect(307, 'https://www.batamon.asia');
 };
 
 app.get('/employer', redirectToHome);
