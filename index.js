@@ -23,6 +23,7 @@ mongoose
 
 
 const redirectToHome = (req, res) => {
+  res.status(307);
   res.redirect(307, 'https://www.batamon.asia');
 };
 
