@@ -1,16 +1,21 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const cors = require('cors');
+const cors = require("cors");
 const Role = require("./models/role.js");
 const Experience = require("./models/experience.js");
 const AddsOn = require("./models/adds-on.js");
 
-app.use(cors({
-  methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
-}));
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+const corsMiddleware = (req, res, next) => {
+  res.append("Access-Control-Allow-Origin", ["*"]);
+  res.append("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  res.append("Access-Control-Allow-Headers", "Content-Type");
+  next();
+};
+app.use(corsMiddleware);
 
 mongoose
   .connect(
@@ -19,13 +24,12 @@ mongoose
   .then(() => console.log("Connected to MongoDB!"))
   .catch((err) => console.error("Error connecting to MongoDB:", err));
 
-
 const redirectToHome = (req, res) => {
-  res.redirect(307, 'https://www.batamon.asia');
+  res.redirect(307, "https://www.batamon.asia");
 };
 
-app.get('/employer', redirectToHome);
-app.get('/employee', redirectToHome);
+app.get("/employer", redirectToHome);
+app.get("/employee", redirectToHome);
 
 app.get("/roles", async (req, res) => {
   try {
