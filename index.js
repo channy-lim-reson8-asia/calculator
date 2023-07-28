@@ -1,12 +1,16 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-var cors = require("cors");
+const cors = require('cors');
 const Role = require("./models/role.js");
 const Experience = require("./models/experience.js");
 const AddsOn = require("./models/adds-on.js");
 
-app.use(cors());
+const corsOptions = {
+  origin: 'https://batamon-global-group.webflow.io',
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -19,7 +23,6 @@ mongoose
 
 
 const redirectToHome = (req, res) => {
-  res.header("Access-Control-Allow-Origin", "*");
   res.redirect(307, 'https://www.batamon.asia');
 };
 
