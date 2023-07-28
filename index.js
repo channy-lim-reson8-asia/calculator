@@ -20,6 +20,7 @@ mongoose
 
 const redirectToHome = (req, res) => {
   res.status(307);
+  res.header("Access-Control-Allow-Origin", "*");
   res.redirect(307, 'https://www.batamon.asia');
 };
 
