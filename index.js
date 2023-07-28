@@ -7,7 +7,7 @@ const Experience = require("./models/experience.js");
 const AddsOn = require("./models/adds-on.js");
 
 const corsOptions = {
-  origin: 'https://batamon-global-group.webflow.io',
+  origin: '*',
 };
 
 app.use(cors(corsOptions));
