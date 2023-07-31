@@ -24,15 +24,6 @@ mongoose
   .then(() => console.log("Connected to MongoDB!"))
   .catch((err) => console.error("Error connecting to MongoDB:", err));
 
-const redirectToHome = (req, res) => {
-  res.redirect(307, "https://www.batamon.asia");
-};
-
-app.get("/employer", (req, res) => {
-  res.redirect(307, "https://www.batamon.asia/");
-});
-app.get("/employee", redirectToHome);
-
 app.get("/roles", async (req, res) => {
   try {
     const roles = await Role.find();
