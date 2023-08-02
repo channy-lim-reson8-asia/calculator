@@ -5,6 +5,7 @@ const cors = require("cors");
 const Role = require("./models/role.js");
 const Experience = require("./models/experience.js");
 const AddsOn = require("./models/adds-on.js");
+const Salaries = require("./models/salary.js");
 
 app.use(cors());
 app.use(express.json());
@@ -66,6 +67,51 @@ app.post("/experience", async (req, res) => {
     res.status(201).send("Experience created successfully.");
   } catch (error) {
     res.status(500).send("Error creating experience.");
+  }
+});
+
+app.get("/salary", async (req, res) => {
+  try {
+    const salaries = await Salaries.find();
+    res.send(salaries);
+  } catch (error) {
+    res.status(500).send("Error fetching salary from the database.");
+  }
+});
+
+app.get("/salary/:role_id/:experience_id", async (req, res) => {
+  try {
+    const role_id = req.params.role_id;
+    const experience_id = req.params.experience_id;
+
+    const salary = await Salaries.findOne({
+      role_id: role_id,
+      experience_id: experience_id,
+    });
+
+    if (!salary) {
+      return res.status(404).send("Salary data not found.");
+    }
+
+    res.status(200).json(salary);
+  } catch (error) {
+    res.status(500).send("Error fetching salary from the database.");
+  }
+});
+
+app.post("/salary", async (req, res) => {
+  try {
+    const newSalary = new Salaries({
+      role_id: req.body.role_id,
+      experience_id: req.body.experience_id,
+      batam_salary: req.body.batam_salary,
+      sg_salary: req.body.sg_salary,
+    });
+    await newSalary.save();
+    res.status(201).send("Salary created successfully.");
+  } catch (error) {
+    console.error("Error creating salary:", error);
+    res.status(500).send("Error creating salary.");
   }
 });
 
