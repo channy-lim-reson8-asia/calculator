@@ -6,6 +6,7 @@ const Role = require("./models/role.js");
 const Experience = require("./models/experience.js");
 const AddsOn = require("./models/adds-on.js");
 const Salaries = require("./models/salary.js");
+const Plan = require("./models/plan.js");
 
 app.use(cors());
 app.use(express.json());
@@ -115,6 +116,25 @@ app.post("/salary", async (req, res) => {
   }
 });
 
+// app.get("/adds-on", async (req, res) => {
+//   let addsOnIds = req.query["adds-on"];
+//   try {
+//     if (typeof addsOnIds == "string") {
+//       const addsOn = await AddsOn.findById(addsOnIds);
+//       res.send(addsOn);
+//     } else {
+//       const selectedAddsOn = [];
+//       for (id of addsOnIds) {
+//         const addsOn = await AddsOn.findById(id);
+//         selectedAddsOn.push(addsOn);
+//       }
+//       res.send(selectedAddsOn);
+//     }
+//   } catch (error) {
+//     res.status(500).send("Error fetching adds-on from the database.");
+//   }
+// });
+
 app.get("/adds-on", async (req, res) => {
   try {
     const addsOn = await AddsOn.find();
@@ -134,6 +154,101 @@ app.post("/adds-on", async (req, res) => {
     res.status(201).send("Adds-on created successfully.");
   } catch (error) {
     res.status(500).send("Error creating adds-on.");
+  }
+});
+
+// app.get("/plan/:plan_id/:total_salary", async (req, res) => {
+//   const { total_salary, plan_id: planId } = req.params;
+//   try {
+//     const plan = await Plan.findById(planId);
+//     const totalSalary = Number(total_salary);
+//     const planNoTalentSourcing =
+//       totalSalary +
+//       plan.coworking_desk_price +
+//       (totalSalary * plan.other_benefits_percentage) / 100;
+//     const totalPlan =
+//       planNoTalentSourcing +
+//       (totalSalary * plan.talent_sourcing_percentage) / 100;
+
+//     const planPrice = {
+//       plan_id: plan._id,
+//       plan: plan.plan_name,
+//       plan_no_talent_sourcing: planNoTalentSourcing,
+//       plan_price: totalPlan,
+//     };
+
+//     res.send(planPrice);
+//   } catch (error) {
+//     res.status(500).send("Error fetching plan from the database.");
+//   }
+// });
+
+app.get("/plan", async (req, res) => {
+  try {
+    const plan = await Plan.find();
+    res.send(plan);
+  } catch (error) {
+    res.status(500).send("Error fetching adds-on from the database.");
+  }
+});
+
+app.post("/plan", async (req, res) => {
+  const {
+    plan_name,
+    coworking_desk_price,
+    talent_sourcing_percentage,
+    other_benefits_percentage,
+  } = req.body;
+  try {
+    const newPlan = new Plan({
+      plan_name,
+      coworking_desk_price,
+      talent_sourcing_percentage,
+      other_benefits_percentage,
+    });
+    await newPlan.save();
+    res.status(201).send("New plan created successfully.");
+  } catch (error) {
+    res.status(500).send("Error creating a new plan.");
+  }
+});
+
+app.get("/total", async (req, res) => {
+  const { total_salary, plan_id: planId, adds_on: addsOnIds } = req.query;
+  try {
+    let selectedAddsOn = [];
+    let selectedAddsOnPrice = 0;
+    if (typeof addsOnIds == "string") {
+      selectedAddsOn = await AddsOn.findById(addsOnIds);
+      selectedAddsOnPrice = selectedAddsOn.addson_price;
+    } else {
+      for (id of Array.from(new Set(addsOnIds))) {
+        selectedAddsOn = await AddsOn.findById(id);
+        selectedAddsOnPrice += selectedAddsOn.addson_price;
+      }
+    }
+
+    const plan = await Plan.findById(planId);
+    const totalSalary = Number(total_salary);
+    const planNoTalentSourcing =
+      totalSalary +
+      plan.coworking_desk_price +
+      (totalSalary * plan.other_benefits_percentage) / 100;
+    const totalPlan =
+      planNoTalentSourcing +
+      (totalSalary * plan.talent_sourcing_percentage) / 100;
+
+    const totalPrice = {
+      plan_id: plan._id,
+      plan: plan.plan_name,
+      plan_no_talent_sourcing: planNoTalentSourcing,
+      plan_price: totalPlan,
+      adds_on_price: selectedAddsOnPrice,
+    };
+
+    res.send(totalPrice);
+  } catch (error) {
+    res.status(500).send("Error fetching adds-on from the database.");
   }
 });
 
