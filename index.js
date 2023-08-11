@@ -157,6 +157,15 @@ app.post("/adds-on", async (req, res) => {
   }
 });
 
+app.put("/adds-on/:id", async (req, res) => {
+  try {
+    const result = await AddsOn.replaceOne({ _id: req.params.id }, req.body);
+    res.status(200).send("Adds-on updated.");
+  } catch (error) {
+    res.status(500).send("Error creating adds-on.");
+  }
+});
+
 // app.get("/plan/:plan_id/:total_salary", async (req, res) => {
 //   const { total_salary, plan_id: planId } = req.params;
 //   try {
@@ -239,8 +248,6 @@ app.get("/total", async (req, res) => {
       (totalSalary * plan.talent_sourcing_percentage) / 100;
 
     const totalPrice = {
-      plan_id: plan._id,
-      plan: plan.plan_name,
       plan_no_talent_sourcing: planNoTalentSourcing,
       plan_price: totalPlan,
       adds_on_price: selectedAddsOnPrice,
