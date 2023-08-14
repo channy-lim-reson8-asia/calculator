@@ -50,6 +50,24 @@ app.post("/roles", async (req, res) => {
   }
 });
 
+app.get("/roles/search", async (req, res) => {
+  try {
+    const { keyword } = req.query;
+
+    if (!keyword) {
+      const roles = await Role.find();
+      res.send(roles);
+    }
+
+    const query = { role_name: { $regex: keyword, $options: "i" } };
+    const results = await Role.find(query);
+
+    res.json(results);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 app.get("/experience", async (req, res) => {
   try {
     const experiences = await Experience.find();
@@ -68,6 +86,24 @@ app.post("/experience", async (req, res) => {
     res.status(201).send("Experience created successfully.");
   } catch (error) {
     res.status(500).send("Error creating experience.");
+  }
+});
+
+app.get("/experience/search", async (req, res) => {
+  try {
+    const { keyword } = req.query;
+
+    if (!keyword) {
+      const years_of_experience = await Experience.find();
+      res.send(years_of_experience);
+    }
+
+    const query = { years_of_experience: { $regex: keyword, $options: "i" } };
+    const results = await Experience.find(query);
+
+    res.json(results);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
