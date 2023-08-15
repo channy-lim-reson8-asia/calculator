@@ -65,14 +65,8 @@ app.get("/roles/search", async (req, res) => {
     const { keyword } = req.query;
 
     if (!keyword) {
-      Role.find({}, function (err, roles) {
-        if (err) {
-          console.error(err);
-          res.status(500).send({ error: "No keyword provided" });
-        } else {
-          res.json(roles);
-        }
-      });
+      const roles = await Role.find();
+      res.send(roles);
     } else {
       const query = { role_name: { $regex: keyword, $options: "i" } };
       const results = await Role.find(query);
