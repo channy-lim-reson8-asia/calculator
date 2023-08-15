@@ -15,7 +15,6 @@ const corsMiddleware = (req, res, next) => {
   res.setHeader("X-Custom-Header", "Hello from the server!");
   res.append("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
   res.append("Access-Control-Allow-Headers", "Content-Type");
-  res.header("Access-Control-Allow-Origin", "*");
   next();
 };
 app.use(corsMiddleware);
@@ -52,6 +51,7 @@ app.post("/roles", async (req, res) => {
 });
 
 app.get("/roles/search", async (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
   try {
     const { keyword } = req.query;
 
