@@ -11,19 +11,19 @@ const Plan = require("./models/plan.js");
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-const corsMiddleware = (req, res, next) => {
-  res.setHeader("X-Custom-Header", "Hello from the server!");
-  res.setHeader("Access-Control-Allow-Methods", "GET,PATCH,DELETE,POST,PUT");
-  res.append("Access-Control-Allow-Headers", "Content-Type");
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
-  );
-  next();
-};
-app.use(corsMiddleware);
+// const corsMiddleware = (req, res, next) => {
+//   res.setHeader("X-Custom-Header", "Hello from the server!");
+//   res.setHeader("Access-Control-Allow-Methods", "GET,PATCH,DELETE,POST,PUT");
+//   res.append("Access-Control-Allow-Headers", "Content-Type");
+//   res.setHeader("Access-Control-Allow-Credentials", true);
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   res.setHeader(
+//     "Access-Control-Allow-Headers",
+//     "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
+//   );
+//   next();
+// };
+// app.use(corsMiddleware);
 
 mongoose
   .connect(
