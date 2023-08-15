@@ -15,6 +15,7 @@ const corsMiddleware = (req, res, next) => {
   res.setHeader("X-Custom-Header", "Hello from the server!");
   res.append("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
   res.append("Access-Control-Allow-Headers", "Content-Type");
+  res.header("Access-Control-Allow-Origin", "*");
   next();
 };
 app.use(corsMiddleware);
