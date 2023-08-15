@@ -13,8 +13,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 const corsMiddleware = (req, res, next) => {
   res.setHeader("X-Custom-Header", "Hello from the server!");
-  res.append("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  res.setHeader("Access-Control-Allow-Methods", "GET,PATCH,DELETE,POST,PUT");
   res.append("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
+  );
   next();
 };
 app.use(corsMiddleware);
@@ -52,7 +58,6 @@ app.post("/roles", async (req, res) => {
 
 app.get("/roles/search", async (req, res) => {
   try {
-    res.header("Access-Control-Allow-Origin", "*");
     const { keyword } = req.query;
 
     if (!keyword) {
