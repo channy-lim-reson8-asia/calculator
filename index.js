@@ -65,14 +65,19 @@ app.get("/roles/search", async (req, res) => {
     const { keyword } = req.query;
 
     if (!keyword) {
-      const roles = await Role.find();
-      res.send(roles);
+      Role.find({}, function (err, roles) {
+        if (err) {
+          res.status(500).send(err);
+        } else {
+          res.send(roles);
+        }
+      });
+    } else {
+      const query = { role_name: { $regex: keyword, $options: "i" } };
+      const results = await Role.find(query);
+
+      res.send(results);
     }
-
-    const query = { role_name: { $regex: keyword, $options: "i" } };
-    const results = await Role.find(query);
-
-    res.send(results);
   } catch (error) {
     res.status(500).send({ error: "Internal server error" });
   }
