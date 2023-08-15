@@ -2,11 +2,11 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
-const Role = require("../models/role.js");
-const Experience = require("../models/experience.js");
-const AddsOn = require("../models/adds-on.js");
-const Salaries = require("../models/salary.js");
-const Plan = require("../models/plan.js");
+const Role = require("./models/role.js");
+const Experience = require("./models/experience.js");
+const AddsOn = require("./models/adds-on.js");
+const Salaries = require("./models/salary.js");
+const Plan = require("./models/plan.js");
 
 app.use(cors());
 app.use(express.json());
