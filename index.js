@@ -67,9 +67,10 @@ app.get("/roles/search", async (req, res) => {
     if (!keyword) {
       Role.find({}, function (err, roles) {
         if (err) {
-          res.status(500).send(err);
+          console.error(err);
+          res.status(500).send({ error: "No keyword provided" });
         } else {
-          res.send(roles);
+          res.json(roles);
         }
       });
     } else {
