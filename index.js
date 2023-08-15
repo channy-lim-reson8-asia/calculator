@@ -51,7 +51,6 @@ app.post("/roles", async (req, res) => {
 });
 
 app.get("/roles/search", async (req, res) => {
-  res.header("Access-Control-Allow-Origin", "*");
   try {
     const { keyword } = req.query;
 
@@ -63,9 +62,9 @@ app.get("/roles/search", async (req, res) => {
     const query = { role_name: { $regex: keyword, $options: "i" } };
     const results = await Role.find(query);
 
-    res.json(results);
+    res.send(results);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).send({ error: "Internal server error" });
   }
 });
 
