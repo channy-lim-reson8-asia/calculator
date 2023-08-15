@@ -10,7 +10,7 @@ const Plan = require("./models/plan.js");
 
 app.use(
   cors({
-    origin: "https://batamon-global-group.webflow.io/",
+    origin: "https://batamon-global-group.webflow.io",
   })
 );
 app.use(express.json());
