@@ -52,6 +52,7 @@ app.post("/roles", async (req, res) => {
 
 app.get("/roles/search", async (req, res) => {
   try {
+    res.header("Access-Control-Allow-Origin", "*");
     const { keyword } = req.query;
 
     if (!keyword) {
