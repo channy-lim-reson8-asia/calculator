@@ -106,12 +106,12 @@ app.get("/experience/search", async (req, res) => {
     if (!keyword) {
       const years_of_experience = await Experience.find();
       res.send(years_of_experience);
+    } else {
+      const query = { years_of_experience: { $regex: keyword, $options: "i" } };
+      const results = await Experience.find(query);
     }
 
-    const query = { years_of_experience: { $regex: keyword, $options: "i" } };
-    const results = await Experience.find(query);
-
-    res.json(results);
+    res.send(results);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
