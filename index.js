@@ -8,11 +8,7 @@ const AddsOn = require("./models/adds-on.js");
 const Salaries = require("./models/salary.js");
 const Plan = require("./models/plan.js");
 
-app.use(
-  cors({
-    origin: "https://batamon-global-group.webflow.io",
-  })
-);
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 // const corsMiddleware = (req, res, next) => {
@@ -78,6 +74,15 @@ app.get("/roles/search", async (req, res) => {
   }
 });
 
+app.put("/roles/:id", async (req, res) => {
+  try {
+    const result = await Role.replaceOne({ _id: req.params.id }, req.body);
+    res.status(200).send("Role updated.");
+  } catch (error) {
+    res.status(500).send("Error updating role.");
+  }
+});
+
 app.get("/experience", async (req, res) => {
   try {
     const experiences = await Experience.find();
@@ -96,6 +101,18 @@ app.post("/experience", async (req, res) => {
     res.status(201).send("Experience created successfully.");
   } catch (error) {
     res.status(500).send("Error creating experience.");
+  }
+});
+
+app.put("/experience/:id", async (req, res) => {
+  try {
+    const result = await Experience.replaceOne(
+      { _id: req.params.id },
+      req.body
+    );
+    res.status(200).send("Experience updated.");
+  } catch (error) {
+    res.status(500).send("Error updating experience.");
   }
 });
 
