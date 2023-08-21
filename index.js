@@ -83,6 +83,19 @@ app.put("/roles/:id", async (req, res) => {
   }
 });
 
+app.delete("/roles/:id", async (req, res) => {
+  try {
+    const result = await Role.deleteOne({ _id: req.params.id });
+    if (result.deletedCount === 1) {
+      res.status(200).send("Role deleted.");
+    } else {
+      res.status(404).send("Role not found.");
+    }
+  } catch (error) {
+    res.status(500).send("Error deleting role.");
+  }
+});
+
 app.get("/experience", async (req, res) => {
   try {
     const experiences = await Experience.find();
