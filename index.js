@@ -8,7 +8,11 @@ const AddsOn = require("./models/adds-on.js");
 const Salaries = require("./models/salary.js");
 const Plan = require("./models/plan.js");
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://batamon-global-group.webflow.io",
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 // const corsMiddleware = (req, res, next) => {
