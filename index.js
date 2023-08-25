@@ -258,18 +258,18 @@ app.put("/adds-on/:id", async (req, res) => {
   }
 });
 
-app.delete("/adds-on/:id", async (req, res) => {
-  try {
-    const result = await AddsOn.deleteOne({ _id: req.params.id });
-    if (result.deletedCount === 1) {
-      res.status(200).send("Adds-on deleted.");
-    } else {
-      res.status(404).send("Adds-on not found.");
-    }
-  } catch (error) {
-    res.status(500).send("Error deleting adds-on.");
-  }
-});
+// app.delete("/adds-on/:id", async (req, res) => {
+//   try {
+//     const result = await AddsOn.deleteOne({ _id: req.params.id });
+//     if (result.deletedCount === 1) {
+//       res.status(200).send("Adds-on deleted.");
+//     } else {
+//       res.status(404).send("Adds-on not found.");
+//     }
+//   } catch (error) {
+//     res.status(500).send("Error deleting adds-on.");
+//   }
+// });
 
 // app.get("/plan/:plan_id/:total_salary", async (req, res) => {
 //   const { total_salary, plan_id: planId } = req.params;
