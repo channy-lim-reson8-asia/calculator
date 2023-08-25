@@ -196,17 +196,17 @@ app.post("/salary", async (req, res) => {
   }
 });
 
-app.post("/salaries", async (req, res) => {
-  try {
-    const salaryDataArray = req.body;
+// app.post("/salaries", async (req, res) => {
+//   try {
+//     const salaryDataArray = req.body;
 
-    const createdSalaries = await Salaries.insertMany(salaryDataArray);
-    res.status(201).json(createdSalaries);
-  } catch (error) {
-    console.error("Error creating salaries:", error);
-    res.status(500).send("Error creating salaries.");
-  }
-});
+//     const createdSalaries = await Salaries.insertMany(salaryDataArray);
+//     res.status(201).json(createdSalaries);
+//   } catch (error) {
+//     console.error("Error creating salaries:", error);
+//     res.status(500).send("Error creating salaries.");
+//   }
+// });
 
 // app.get("/adds-on", async (req, res) => {
 //   let addsOnIds = req.query["adds-on"];
