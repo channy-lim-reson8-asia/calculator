@@ -196,6 +196,18 @@ app.post("/salary", async (req, res) => {
   }
 });
 
+app.post("/salaries", async (req, res) => {
+  try {
+    const salaryDataArray = req.body;
+
+    const createdSalaries = await Salaries.insertMany(salaryDataArray);
+    res.status(201).json(createdSalaries);
+  } catch (error) {
+    console.error("Error creating salaries:", error);
+    res.status(500).send("Error creating salaries.");
+  }
+});
+
 // app.get("/adds-on", async (req, res) => {
 //   let addsOnIds = req.query["adds-on"];
 //   try {
@@ -243,6 +255,19 @@ app.put("/adds-on/:id", async (req, res) => {
     res.status(200).send("Adds-on updated.");
   } catch (error) {
     res.status(500).send("Error creating adds-on.");
+  }
+});
+
+app.delete("/adds-on/:id", async (req, res) => {
+  try {
+    const result = await AddsOn.deleteOne({ _id: req.params.id });
+    if (result.deletedCount === 1) {
+      res.status(200).send("Adds-on deleted.");
+    } else {
+      res.status(404).send("Adds-on not found.");
+    }
+  } catch (error) {
+    res.status(500).send("Error deleting adds-on.");
   }
 });
 
