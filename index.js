@@ -133,6 +133,19 @@ app.put("/experience/:id", async (req, res) => {
   }
 });
 
+app.delete("/experience/:id", async (req, res) => {
+  try {
+    const result = await Experience.deleteOne({ _id: req.params.id });
+    if (result.deletedCount === 1) {
+      res.status(200).send("Experience deleted.");
+    } else {
+      res.status(404).send("Experience not found.");
+    }
+  } catch (error) {
+    res.status(500).send("Error deleting experience.");
+  }
+});
+
 app.get("/experience/search", async (req, res) => {
   try {
     const { keyword } = req.query;
@@ -196,6 +209,49 @@ app.post("/salary", async (req, res) => {
   }
 });
 
+app.patch("/salary/:id", async (req, res) => {
+  try {
+    const salaryId = req.params.id;
+
+    const existingSalary = await Salaries.findById(salaryId);
+    if (!existingSalary) {
+      return res.status(404).send("Salary not found.");
+    }
+
+    if (req.body.batam_salary !== undefined) {
+      existingSalary.batam_salary = req.body.batam_salary;
+    }
+    if (req.body.sg_salary !== undefined) {
+      existingSalary.sg_salary = req.body.sg_salary;
+    }
+
+    // Save the updated salary record
+    await existingSalary.save();
+
+    res.status(200).send("Salary updated successfully.");
+  } catch (error) {
+    console.error("Error updating salary:", error);
+    res.status(500).send("Error updating salary.");
+  }
+});
+
+app.delete("/salary/:id", async (req, res) => {
+  try {
+    const salaryId = req.params.id;
+
+    const result = await Salaries.deleteOne(salaryId);
+
+    if (result.deletedCount === 1) {
+      res.status(200).send("Salary deleted successfully.");
+    } else {
+      res.status(404).send("Salary not found.");
+    }
+  } catch (error) {
+    console.error("Error deleting salary:", error);
+    res.status(500).send("Error deleting salary.");
+  }
+});
+
 app.post("/salaries", async (req, res) => {
   try {
     const salaryDataArray = req.body;
@@ -226,37 +282,6 @@ app.post("/salaries", async (req, res) => {
 //     res.status(500).send("Error fetching adds-on from the database.");
 //   }
 // });
-
-app.get("/adds-on", async (req, res) => {
-  try {
-    const addsOn = await AddsOn.find();
-    res.send(addsOn);
-  } catch (error) {
-    res.status(500).send("Error fetching adds-on from the database.");
-  }
-});
-
-app.post("/adds-on", async (req, res) => {
-  try {
-    const newAddsOn = new AddsOn({
-      addson_name: req.body.addson_name,
-      addson_price: req.body.addson_price,
-    });
-    await newAddsOn.save();
-    res.status(201).send("Adds-on created successfully.");
-  } catch (error) {
-    res.status(500).send("Error creating adds-on.");
-  }
-});
-
-app.put("/adds-on/:id", async (req, res) => {
-  try {
-    const result = await AddsOn.replaceOne({ _id: req.params.id }, req.body);
-    res.status(200).send("Adds-on updated.");
-  } catch (error) {
-    res.status(500).send("Error creating adds-on.");
-  }
-});
 
 app.get("/adds-on", async (req, res) => {
   try {
@@ -329,6 +354,28 @@ app.post("/plan", async (req, res) => {
     res.status(201).send("New plan created successfully.");
   } catch (error) {
     res.status(500).send("Error creating a new plan.");
+  }
+});
+
+app.put("/plan/:id", async (req, res) => {
+  try {
+    const result = await Plan.replaceOne({ _id: req.params.id }, req.body);
+    res.status(200).send("Plan updated.");
+  } catch (error) {
+    res.status(500).send("Error creating plan.");
+  }
+});
+
+app.delete("/plan/:id", async (req, res) => {
+  try {
+    const result = await Plan.deleteOne({ _id: req.params.id });
+    if (result.deletedCount === 1) {
+      res.status(200).send("Plan deleted.");
+    } else {
+      res.status(404).send("Plan not found.");
+    }
+  } catch (error) {
+    res.status(500).send("Error deleting Plan.");
   }
 });
 
