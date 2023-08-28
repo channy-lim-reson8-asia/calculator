@@ -196,6 +196,18 @@ app.post("/salary", async (req, res) => {
   }
 });
 
+app.post("/salaries", async (req, res) => {
+  try {
+    const salaryDataArray = req.body;
+
+    const createdSalaries = await Salaries.insertMany(salaryDataArray);
+    res.status(201).json(createdSalaries);
+  } catch (error) {
+    console.error("Error creating salaries:", error);
+    res.status(500).send("Error creating salaries.");
+  }
+});
+
 // app.get("/adds-on", async (req, res) => {
 //   let addsOnIds = req.query["adds-on"];
 //   try {
@@ -246,31 +258,49 @@ app.put("/adds-on/:id", async (req, res) => {
   }
 });
 
-// app.get("/plan/:plan_id/:total_salary", async (req, res) => {
-//   const { total_salary, plan_id: planId } = req.params;
-//   try {
-//     const plan = await Plan.findById(planId);
-//     const totalSalary = Number(total_salary);
-//     const planNoTalentSourcing =
-//       totalSalary +
-//       plan.coworking_desk_price +
-//       (totalSalary * plan.other_benefits_percentage) / 100;
-//     const totalPlan =
-//       planNoTalentSourcing +
-//       (totalSalary * plan.talent_sourcing_percentage) / 100;
+app.get("/adds-on", async (req, res) => {
+  try {
+    const addsOn = await AddsOn.find();
+    res.send(addsOn);
+  } catch (error) {
+    res.status(500).send("Error fetching adds-on from the database.");
+  }
+});
 
-//     const planPrice = {
-//       plan_id: plan._id,
-//       plan: plan.plan_name,
-//       plan_no_talent_sourcing: planNoTalentSourcing,
-//       plan_price: totalPlan,
-//     };
+app.post("/adds-on", async (req, res) => {
+  try {
+    const newAddsOn = new AddsOn({
+      addson_name: req.body.addson_name,
+      addson_price: req.body.addson_price,
+    });
+    await newAddsOn.save();
+    res.status(201).send("Adds-on created successfully.");
+  } catch (error) {
+    res.status(500).send("Error creating adds-on.");
+  }
+});
 
-//     res.send(planPrice);
-//   } catch (error) {
-//     res.status(500).send("Error fetching plan from the database.");
-//   }
-// });
+app.put("/adds-on/:id", async (req, res) => {
+  try {
+    const result = await AddsOn.replaceOne({ _id: req.params.id }, req.body);
+    res.status(200).send("Adds-on updated.");
+  } catch (error) {
+    res.status(500).send("Error creating adds-on.");
+  }
+});
+
+app.delete("/adds-on/:id", async (req, res) => {
+  try {
+    const result = await AddsOn.deleteOne({ _id: req.params.id });
+    if (result.deletedCount === 1) {
+      res.status(200).send("Adds-on deleted.");
+    } else {
+      res.status(404).send("Adds-on not found.");
+    }
+  } catch (error) {
+    res.status(500).send("Error deleting adds-on.");
+  }
+});
 
 app.get("/plan", async (req, res) => {
   try {
